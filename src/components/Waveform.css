@@ -1,0 +1,22 @@
+.waveform {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.waveform-bar {
+  width: 3px;
+  border-radius: 2px;
+  animation: wave 1.2s ease-in-out infinite;
+  animation-play-state: paused;
+  transition: background 0.4s;
+}
+
+.waveform-bar.playing { animation-play-state: running; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(var(--scale, 2)); }
+}
