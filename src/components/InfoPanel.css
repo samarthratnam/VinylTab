@@ -1,9 +1,25 @@
 .info-panel {
   min-height: 0;
+  height: 100%;
   display: grid;
-  grid-template-rows: auto auto auto auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   gap: 14px;
-  padding: 10px 10px 8px 4px;
+  padding: 8px 4px 8px 0;
+}
+
+.player-meta-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--divider);
+  background: var(--surface-elevated);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(4px);
+}
+
+body.light .player-meta-card {
+  box-shadow: 0 10px 26px rgba(31, 23, 12, 0.08);
 }
 
 .track-info {
@@ -15,22 +31,22 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 6px;
-  transition: color 0.3s;
+  margin-bottom: 8px;
 }
 
 .track-name {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(24px, 3.6vw, 38px);
-  line-height: 1.06;
+  font-size: clamp(24px, 3.5vw, 40px);
+  line-height: 1.05;
   color: var(--text-primary);
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .track-artist {
-  margin-top: 4px;
+  margin-top: 6px;
   font-family: 'Playfair Display', serif;
   font-style: italic;
   font-size: 14px;
@@ -40,65 +56,73 @@
 .controls {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
+}
+
+.transport-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .ctrl-btn {
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
   color: var(--ctrl-color);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 999px;
-  transition: transform 0.15s ease, color 0.2s ease, background 0.2s ease;
+  transition: transform 0.14s ease, color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
 .ctrl-btn:hover {
   color: var(--text-primary);
+  border-color: var(--divider);
   background: rgba(255, 255, 255, 0.06);
   transform: translateY(-1px);
 }
 
 .play-btn {
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #5f8bff, #7f75ff);
+  background: linear-gradient(135deg, var(--accent), #e38634);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.15s ease, box-shadow 0.2s ease;
-  box-shadow: 0 10px 24px rgba(96, 140, 255, 0.42);
+  box-shadow: 0 12px 26px rgba(245, 159, 71, 0.44);
 }
 
 .play-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 26px rgba(96, 140, 255, 0.54);
+  box-shadow: 0 16px 32px rgba(245, 159, 71, 0.55);
 }
 
 .vol-row {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   margin-left: auto;
 }
 
 .vol-icon {
   color: var(--vol-icon);
-  transition: color 0.4s;
 }
 
 .vol-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 94px;
-  height: 3px;
+  width: 108px;
+  height: 4px;
   background: var(--vol-track);
   border-radius: 999px;
   outline: none;
@@ -106,17 +130,18 @@
 }
 
 .vol-slider::-webkit-slider-runnable-track {
-  height: 3px;
+  height: 4px;
   border-radius: 999px;
 }
 
 .vol-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -4px;
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--vol-thumb);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.25);
   cursor: pointer;
 }
 
@@ -127,15 +152,15 @@
 .progress-slider {
   --progress-fill: linear-gradient(
     90deg,
-    #6290ff 0%,
-    #8f9cff var(--seek-pct),
+    var(--accent) 0%,
+    var(--accent-cool) var(--seek-pct),
     var(--progress-bg) var(--seek-pct),
     var(--progress-bg) 100%
   );
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 6px;
+  height: 7px;
   border-radius: 999px;
   outline: none;
   cursor: pointer;
@@ -143,20 +168,20 @@
 }
 
 .progress-slider::-webkit-slider-runnable-track {
-  height: 6px;
+  height: 7px;
   border-radius: 999px;
   background: transparent;
 }
 
 .progress-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   margin-top: -4px;
   border-radius: 50%;
-  border: 2px solid #d5defe;
-  background: #7f95ff;
-  box-shadow: 0 0 0 2px rgba(90, 121, 235, 0.35);
+  border: 2px solid var(--accent-bright);
+  background: var(--accent-cool);
+  box-shadow: 0 0 0 3px rgba(110, 151, 240, 0.24);
 }
 
 .times {
@@ -171,7 +196,18 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  border-radius: 16px;
+  border: 1px solid var(--divider);
+  background: var(--surface-muted);
+  padding: 12px 10px 8px 12px;
+}
+
+.queue-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .queue-label {
@@ -181,34 +217,70 @@
   color: var(--text-muted);
 }
 
+.queue-count {
+  font-size: 10px;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.queue-section .track-list {
+  flex: 1;
+  min-height: 0;
+}
+
 @media (max-width: 980px) {
   .info-panel {
     width: 100%;
-    padding: 2px 0 0;
-    grid-template-rows: auto auto auto auto minmax(180px, 1fr);
+    padding: 0;
+    gap: 12px;
+  }
+
+  .player-meta-card {
+    padding: 14px;
   }
 
   .track-name {
-    white-space: normal;
-    font-size: clamp(22px, 7.4vw, 30px);
+    font-size: clamp(22px, 7.2vw, 32px);
   }
 
-  .vol-slider {
-    width: 86px;
+  .queue-section {
+    min-height: 240px;
   }
 }
 
 @media (max-width: 620px) {
+  .player-meta-card {
+    gap: 12px;
+    border-radius: 14px;
+    padding: 12px;
+  }
+
   .controls {
     gap: 10px;
   }
 
+  .transport-controls {
+    gap: 8px;
+  }
+
   .play-btn {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .vol-row {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .vol-slider {
-    width: 74px;
+    width: min(44vw, 140px);
+  }
+
+  .queue-section {
+    border-radius: 14px;
+    padding: 10px 8px 6px 10px;
+    min-height: 250px;
   }
 }

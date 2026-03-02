@@ -2,10 +2,11 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-height: 258px;
   min-height: 0;
   overflow-y: auto;
   padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
 }
 
 .track-list::-webkit-scrollbar {
@@ -13,25 +14,22 @@
 }
 
 .track-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--scroll-track);
   border-radius: 999px;
 }
 
 .track-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--scroll-thumb);
   border-radius: 999px;
 }
 
-body.light .track-list::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-body.light .track-list::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.18);
+.track-list.track-list--main {
+  flex: 1 1 auto;
+  max-height: clamp(220px, 36vh, 360px);
 }
 
 .track-list.track-list--panel {
-  max-height: min(42vh, 320px);
+  max-height: min(48vh, 340px);
 }
 
 .track-item {
@@ -56,13 +54,13 @@ body.light .track-list::-webkit-scrollbar-thumb {
 
 .track-item.active {
   color: var(--text-primary);
-  background: rgba(107, 143, 255, 0.1);
-  border-color: rgba(107, 143, 255, 0.35);
+  background: linear-gradient(90deg, rgba(245, 159, 71, 0.16), rgba(124, 174, 255, 0.15));
+  border-color: rgba(245, 159, 71, 0.38);
 }
 
 .track-item.active .t-num,
 .track-item.active .t-dur {
-  color: #7b9aff;
+  color: var(--accent-bright);
   opacity: 1;
 }
 
@@ -92,7 +90,7 @@ body.light .track-list::-webkit-scrollbar-thumb {
   justify-content: center;
   font-size: 14px;
   color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .t-meta {
@@ -121,23 +119,23 @@ body.light .track-list::-webkit-scrollbar-thumb {
 .t-dur {
   margin-left: auto;
   font-size: 10px;
-  opacity: 0.6;
+  opacity: 0.65;
   flex-shrink: 0;
 }
 
 @media (max-width: 980px) {
-  .track-list {
-    max-height: 246px;
+  .track-list.track-list--main {
+    max-height: min(40vh, 320px);
   }
 
   .track-list.track-list--panel {
-    max-height: min(48vh, 300px);
+    max-height: min(54vh, 320px);
   }
 }
 
 @media (max-width: 620px) {
-  .track-list {
-    max-height: 44vh;
+  .track-list.track-list--main {
+    max-height: min(46vh, 300px);
   }
 
   .track-item {
@@ -150,5 +148,9 @@ body.light .track-list::-webkit-scrollbar-thumb {
   .t-thumb-fallback {
     width: 30px;
     height: 30px;
+  }
+
+  .track-list.track-list--panel {
+    max-height: min(58vh, 300px);
   }
 }

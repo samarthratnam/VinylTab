@@ -147,7 +147,12 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
   return (
     <div className="player">
       <div className="player-header">
-        <button className="playlist-toggle-btn" onClick={() => setIsPlaylistPanelOpen(true)}>
+        <button
+          className="playlist-toggle-btn"
+          onClick={() => setIsPlaylistPanelOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={isPlaylistPanelOpen}
+        >
           Playlists
         </button>
         <button className="mode-toggle" onClick={onToggleMode}>
