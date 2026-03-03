@@ -91,9 +91,117 @@ body.light .gate-card {
   cursor: not-allowed;
 }
 
+.gate-error-wrap {
+  border: 1px solid rgba(255, 156, 156, 0.38);
+  background:
+    linear-gradient(140deg, rgba(77, 19, 24, 0.44), rgba(31, 12, 18, 0.3)),
+    rgba(0, 0, 0, 0.2);
+  border-radius: 14px;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+body.light .gate-error-wrap {
+  border-color: rgba(160, 44, 44, 0.28);
+  background:
+    linear-gradient(135deg, rgba(255, 236, 236, 0.92), rgba(255, 250, 246, 0.86)),
+    rgba(255, 255, 255, 0.8);
+}
+
+.gate-error-head {
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #ffb8b8;
+}
+
+body.light .gate-error-head {
+  color: #9f3737;
+}
+
 .gate-error {
   font-size: 11px;
-  color: #ff9c9c;
+  line-height: 1.45;
+  color: #ffd6d6;
+}
+
+body.light .gate-error {
+  color: #6c2424;
+}
+
+.gate-explain {
+  border: 1px solid var(--divider);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 11px;
+  display: grid;
+  gap: 8px;
+}
+
+body.light .gate-explain {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.gate-explain-title {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.gate-explain-copy {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.gate-explain-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.gate-explain-tip {
+  border-top: 1px dashed var(--divider);
+  padding-top: 7px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+
+.gate-tech {
+  border: 1px dashed var(--divider);
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+body.light .gate-tech {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.gate-tech summary {
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.gate-tech pre {
+  margin: 8px 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--text-secondary);
 }
 
 .gate-note {

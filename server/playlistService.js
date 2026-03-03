@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import spotifyUrlInfoFactory from 'spotify-url-info';
 
-const MAX_TRACKS = 12;
+const MAX_TRACKS = 100;
 const SEARCH_CONCURRENCY = 3;
 const SEARCH_TIMEOUT_MS = 9000;
 
