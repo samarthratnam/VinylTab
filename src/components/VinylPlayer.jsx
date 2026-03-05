@@ -15,6 +15,7 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
   const [isPlaylistPanelOpen, setIsPlaylistPanelOpen] = useState(false);
   const playerRef = useRef(null);
   const syncRef = useRef(null);
+  const lastVolumeRef = useRef(75);
   const track = tracks[currentTrack] || tracks[0];
   const platform = playlist?.platform || 'Playlist';
   const playlistName = playlist?.name || 'Now Playing';
@@ -61,6 +62,12 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isPlaylistPanelOpen]);
+
+  useEffect(() => {
+    if (volume > 0) {
+      lastVolumeRef.current = volume;
+    }
+  }, [volume]);
 
   const handleSeek = (pct) => {
     const player = playerRef.current;
@@ -123,6 +130,54 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
       playerRef.current.setVolume(nextVolume);
     }
   };
+
+  const toggleMute = () => {
+    if (volume === 0) {
+      handleVolumeChange(lastVolumeRef.current || 75);
+      return;
+    }
+
+    lastVolumeRef.current = volume;
+    handleVolumeChange(0);
+  };
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      const tag = event.target?.tagName?.toLowerCase();
+      if (event.target?.isContentEditable || tag === 'input' || tag === 'textarea' || tag === 'select') {
+        return;
+      }
+      if (event.altKey || event.ctrlKey || event.metaKey) {
+        return;
+      }
+
+      if (event.code === 'Space') {
+        event.preventDefault();
+        togglePlay();
+        return;
+      }
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        nextTrack();
+        return;
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        prevTrack();
+        return;
+      }
+
+      if (event.key?.toLowerCase() === 'm') {
+        event.preventDefault();
+        toggleMute();
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isPlaying, volume, tracks.length]);
 
   const closePanel = () => {
     setIsPlaylistPanelOpen(false);
