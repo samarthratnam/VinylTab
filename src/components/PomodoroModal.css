@@ -1,0 +1,161 @@
+.pomo-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pomo-modal {
+  background: #0e0e0e;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  padding: 40px 44px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+  animation: slideUp 0.3s ease forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.pomo-modal-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.pomo-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.pomo-modal-sub {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.28);
+  text-align: center;
+  margin-top: -18px;
+}
+
+.pomo-input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.pomo-minus,
+.pomo-plus {
+  width: 44px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: 'Space Mono', monospace;
+}
+
+.pomo-minus:hover,
+.pomo-plus:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.pomo-minutes-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  height: 50px;
+  padding: 0;
+  -moz-appearance: textfield;
+}
+
+.pomo-minutes-input::-webkit-inner-spin-button,
+.pomo-minutes-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.pomo-start-btn {
+  width: 100%;
+  padding: 14px;
+  background: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #0e0e0e;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+}
+
+.pomo-start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255, 255, 255, 0.2);
+}
+
+.pomo-start-btn:active {
+  transform: translateY(0);
+}
+
+.pomo-cancel {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  background: none;
+  border: none;
+  font-family: 'Space Mono', monospace;
+  transition: color 0.2s;
+}
+
+.pomo-cancel:hover {
+  color: rgba(255, 255, 255, 0.5);
+}

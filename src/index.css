@@ -59,16 +59,75 @@ body.light {
   --scroll-thumb: rgba(30, 21, 11, 0.26);
 }
 
+body.pomodoro {
+  --bg: #111;
+  --player-bg: linear-gradient(135deg, #0a0a0a 0%, #181818 50%, #0a0a0a 100%);
+  --player-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.07);
+  --glow-left: rgba(255, 255, 255, 0.03);
+  --glow-right: rgba(255, 255, 255, 0.02);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.5);
+  --text-muted: rgba(255, 255, 255, 0.3);
+  --text-faint: rgba(255, 255, 255, 0.22);
+  --divider: rgba(255, 255, 255, 0.07);
+  --progress-bg: rgba(255, 255, 255, 0.1);
+  --track-hover: rgba(255, 255, 255, 0.04);
+  --track-inactive: rgba(255, 255, 255, 0.3);
+  --vol-track: rgba(255, 255, 255, 0.12);
+  --vol-thumb: rgba(255, 255, 255, 0.55);
+  --vol-icon: rgba(255, 255, 255, 0.28);
+  --ctrl-color: rgba(255, 255, 255, 0.38);
+  --accent: #ffffff;
+}
+
+body.pomodoro .player {
+  filter: grayscale(1);
+}
+
+body.pomodoro .play-btn {
+  background: linear-gradient(135deg, #555, #333) !important;
+}
+
+body.pomodoro .progress-fill {
+  background: linear-gradient(90deg, #aaa, #fff) !important;
+}
+
+body.pomodoro .waveform-bar {
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+body.pomodoro .mode-toggle {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes pomoDone {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+body.pomo-done {
+  animation: pomoDone 0.8s ease 2;
+}
+
 body {
   background: var(--bg);
   color: var(--text-primary);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100svh;
   font-family: 'Space Mono', monospace;
-  overflow: hidden;
-  padding: clamp(12px, 2vw, 24px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px) clamp(30px, 6vw, 72px);
   transition: background 0.5s ease, color 0.3s ease;
 }
 
@@ -95,7 +154,6 @@ body::after {
 
 @media (max-width: 900px) {
   body {
-    overflow: auto;
     align-items: flex-start;
     padding: 12px;
   }

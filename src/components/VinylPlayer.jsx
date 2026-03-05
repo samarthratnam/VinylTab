@@ -4,18 +4,23 @@ import InfoPanel from './InfoPanel';
 import TrackList from './TrackList';
 import { TRACKS } from '../data/tracks';
 import YouTubeAudioBridge from './YouTubeAudioBridge';
+import { usePomodoro } from '../hooks/usePomodoro';
+import PomodoroModal from './PomodoroModal';
 import './VinylPlayer.css';
 
 export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangePlaylist }) {
+  const pomo = usePomodoro();
   const tracks = playlist?.tracks?.length ? playlist.tracks : TRACKS;
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [volume, setVolume] = useState(75);
   const [isPlaylistPanelOpen, setIsPlaylistPanelOpen] = useState(false);
   const playerRef = useRef(null);
   const syncRef = useRef(null);
   const lastVolumeRef = useRef(75);
+  const wasPomodoroActiveRef = useRef(false);
   const track = tracks[currentTrack] || tracks[0];
   const platform = playlist?.platform || 'Playlist';
   const playlistName = playlist?.name || 'Now Playing';
@@ -24,7 +29,7 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
 
   useEffect(() => {
     clearInterval(syncRef.current);
-    if (!isPlaying || !playerRef.current) return undefined;
+    if (!isPlaying || !isPlayerReady || !playerRef.current) return undefined;
 
     syncRef.current = setInterval(() => {
       try {
@@ -36,7 +41,7 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
     }, 500);
 
     return () => clearInterval(syncRef.current);
-  }, [isPlaying, currentTrack]);
+  }, [isPlaying, currentTrack, isPlayerReady]);
 
   useEffect(() => {
     setCurrentTrack(0);
@@ -62,6 +67,43 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isPlaylistPanelOpen]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      const tag = e.target?.tagName?.toLowerCase();
+      if (e.target?.isContentEditable || tag === 'input' || tag === 'textarea' || tag === 'select') return;
+
+      if (e.key === 'p' || e.key === 'P') {
+        e.preventDefault();
+        if (pomo.isActive) {
+          pomo.stop();
+        } else {
+          pomo.openModal();
+        }
+      }
+      if (e.key === 'Escape') pomo.closeModal();
+    };
+
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [pomo.closeModal, pomo.isActive, pomo.openModal, pomo.stop]);
+
+  useEffect(() => {
+    document.body.classList.toggle('pomodoro', pomo.isActive);
+    return () => {
+      document.body.classList.remove('pomodoro');
+      document.body.classList.remove('pomo-done');
+    };
+  }, [pomo.isActive]);
+
+  useEffect(() => {
+    if (pomo.isActive && pomo.totalSecs > 0 && pomo.leftSecs === 0) {
+      document.body.classList.add('pomo-done');
+      const timeout = setTimeout(() => document.body.classList.remove('pomo-done'), 1700);
+      return () => clearTimeout(timeout);
+    }
+    return undefined;
+  }, [pomo.isActive, pomo.leftSecs, pomo.totalSecs]);
 
   useEffect(() => {
     if (volume > 0) {
@@ -108,7 +150,9 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
 
   const handlePlayerReady = (event) => {
     playerRef.current = event.target;
+    setIsPlayerReady(true);
     event.target.setVolume(volume);
+    setElapsed(Math.floor(event.target.getCurrentTime?.() || 0));
     if (isPlaying) event.target.playVideo();
   };
 
@@ -140,6 +184,13 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
     lastVolumeRef.current = volume;
     handleVolumeChange(0);
   };
+
+  useEffect(() => {
+    if (pomo.isActive && !wasPomodoroActiveRef.current && !isPlaying) {
+      togglePlay();
+    }
+    wasPomodoroActiveRef.current = pomo.isActive;
+  }, [isPlaying, pomo.isActive]);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -199,8 +250,15 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
     onChangePlaylist();
   };
 
+  const handleModeToggle = () => {
+    if (pomo.isActive) return;
+    onToggleMode();
+  };
+
   return (
     <div className="player">
+      {pomo.showModal ? <PomodoroModal onStart={pomo.start} onClose={pomo.closeModal} /> : null}
+
       <div className="player-header">
         <button
           className="playlist-toggle-btn"
@@ -210,7 +268,7 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
         >
           Playlists
         </button>
-        <button className="mode-toggle" onClick={onToggleMode}>
+        <button className="mode-toggle" onClick={handleModeToggle}>
           <span className={`mode-icon ${isLight ? 'rotated' : ''}`}>
             {isLight ? '\u2600\uFE0F' : '\uD83C\uDF19'}
           </span>
@@ -222,7 +280,15 @@ export default function VinylPlayer({ isLight, onToggleMode, playlist, onChangeP
       <div className="glow-right" />
 
       <div className="player-content">
-        <Record isPlaying={isPlaying} art={track.art} thumbnail={track.thumbnail} title={track.name} />
+        <Record
+          isPlaying={isPlaying}
+          art={track.art}
+          thumbnail={track.thumbnail}
+          title={track.name}
+          isPomodoro={pomo.isActive}
+          pomoLeft={pomo.leftSecs}
+          pomoTotal={pomo.totalSecs}
+        />
 
         <InfoPanel
           track={track}
