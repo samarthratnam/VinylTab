@@ -1,0 +1,8 @@
+node_modules
+dist
+.cache
+node_modules/.cache
+.DS_Store
+.env
+vite.config.js.timestamp-*.mjs
+dasu.response
