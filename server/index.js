@@ -1,12 +1,20 @@
 ﻿import express from 'express';
+import cors from 'cors';
 import { resolvePlaylist } from './playlistService.js';
 
 const app = express();
-const PORT = Number(process.env.API_PORT || 8787);
-const HOST = process.env.API_HOST || '127.0.0.1';
+const PORT = Number(process.env.PORT || 3000);
 
+// Middleware
+app.use(cors());
 app.use(express.json());
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ status: 'Backend running' });
+});
+
+// Health check
 app.get('/api/health', (_, res) => {
   res.json({ ok: true });
 });
@@ -27,15 +35,22 @@ app.post('/api/resolve-playlist', async (req, res) => {
   }
 });
 
-const server = app.listen(PORT, HOST, () => {
-  console.log(`playlist api ready on http://${HOST}:${PORT}`);
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+// Start server
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 server.on('error', (err) => {
   if (err && err.code === 'EADDRINUSE') {
-    console.error(`Port ${PORT} is already in use. Set API_PORT to a free port, for example: API_PORT=8790 npm run dev`);
+    console.error(`Port ${PORT} is already in use. Set PORT to a free port or close the current process.`);
   } else {
-    console.error('Failed to start playlist api.', err);
+    console.error('Failed to start server.', err);
   }
   process.exit(1);
 });

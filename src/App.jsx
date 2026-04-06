@@ -3,7 +3,7 @@ import VinylPlayer from './components/VinylPlayer';
 import PlaylistGate from './components/PlaylistGate';
 import './App.css';
 
-const API_BASE_URL = String(import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+const API_URL = String(import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/$/, '');
 
 export default function App() {
   const [isLight, setIsLight] = useState(false);
@@ -23,7 +23,7 @@ export default function App() {
     setError('');
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/resolve-playlist`, {
+      const response = await fetch(`${API_URL}/api/resolve-playlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url })
@@ -46,7 +46,7 @@ export default function App() {
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Failed to load playlist link.';
       if (/failed to fetch/i.test(msg)) {
-        setError('Could not reach the playlist API. Start both servers with `npm run dev`, then verify `/api/health` (or `http://127.0.0.1:<API_PORT>/api/health`).');
+        setError('Could not reach the playlist API. Make sure the backend is running at ' + API_URL);
       } else {
         setError(msg);
       }

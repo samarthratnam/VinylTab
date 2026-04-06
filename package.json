@@ -14,8 +14,8 @@
   "dependencies": {
     "express": "^4.21.2",
     "react": "^18.2.0",
-    "react-youtube": "^10.1.0",
     "react-dom": "^18.2.0",
+    "react-youtube": "^10.1.0",
     "spotify-url-info": "^3.2.18"
   },
   "devDependencies": {
