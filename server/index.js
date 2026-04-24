@@ -1,56 +1,52 @@
-﻿import express from 'express';
+import express from 'express';
 import cors from 'cors';
 import { resolvePlaylist } from './playlistService.js';
 
 const app = express();
-const PORT = Number(process.env.PORT || 3000);
 
-// Middleware
+// ✅ Use dynamic port (Render requirement)
+const PORT = process.env.PORT || 10000;
+
+// ✅ CORS (restrict later for production if needed)
 app.use(cors());
 app.use(express.json());
 
-// Root route
+// ✅ Root route
 app.get('/', (req, res) => {
-  res.json({ status: 'Backend running' });
+  res.json({ status: 'Backend running 🚀' });
 });
 
-// Health check
+// ✅ Health check
 app.get('/api/health', (_, res) => {
   res.json({ ok: true });
 });
 
+// ✅ Main API
 app.post('/api/resolve-playlist', async (req, res) => {
   const url = String(req.body?.url || '').trim();
+
   if (!url) {
-    res.status(400).json({ error: 'Missing playlist URL.' });
-    return;
+    return res.status(400).json({ error: 'Missing playlist URL.' });
   }
 
   try {
     const payload = await resolvePlaylist(url);
     res.json(payload);
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Failed to resolve playlist.';
+    console.error('Playlist error:', err);
+    const message =
+      err instanceof Error ? err.message : 'Failed to resolve playlist.';
     res.status(422).json({ error: message });
   }
 });
 
-// Error handling middleware
+// ✅ Global error handler
 app.use((err, req, res, next) => {
-  console.error('Error:', err);
+  console.error('Server Error:', err);
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start server
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-server.on('error', (err) => {
-  if (err && err.code === 'EADDRINUSE') {
-    console.error(`Port ${PORT} is already in use. Set PORT to a free port or close the current process.`);
-  } else {
-    console.error('Failed to start server.', err);
-  }
-  process.exit(1);
+// ✅ Start server
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });
