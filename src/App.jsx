@@ -3,7 +3,7 @@ import VinylPlayer from './components/VinylPlayer';
 import PlaylistGate from './components/PlaylistGate';
 import './App.css';
 
-const API_URL = String(import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/$/, '');
+const API_URL = String(import.meta.env.VITE_API_URL || 'https://vinyltab.onrender.com').replace(/\/$/, '');
 
 export default function App() {
   const [isLight, setIsLight] = useState(false);
