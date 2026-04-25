@@ -74,13 +74,92 @@ body.pomodoro .about-link:focus-visible {
 
 .about-copy {
   display: grid;
-  gap: 14px;
+  gap: 22px;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: left;
 }
 
 .about-copy p {
   color: var(--text-secondary);
   line-height: 1.72;
   font-size: clamp(0.94rem, 1.8vw, 1rem);
+  margin: 0;
+}
+
+.about-block {
+  display: grid;
+  gap: 12px;
+}
+
+.about-intro {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.about-copy h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: clamp(1.02rem, 2vw, 1.12rem);
+}
+
+.about-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 10px;
+  color: var(--text-secondary);
+  line-height: 1.72;
+  font-size: clamp(0.94rem, 1.8vw, 1rem);
+}
+
+.about-shortcuts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.about-shortcuts li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.about-key {
+  min-width: 42px;
+  height: 34px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 224, 189, 0.28);
+  background: rgba(255, 246, 230, 0.09);
+  color: var(--text-primary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.about-key-wide {
+  min-width: 96px;
+}
+
+body.light .about-key {
+  border-color: rgba(93, 56, 27, 0.16);
+  background: rgba(255, 255, 255, 0.44);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+}
+
+body.pomodoro .about-key {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .about-link {
@@ -88,10 +167,12 @@ body.pomodoro .about-link:focus-visible {
   align-items: center;
   gap: 10px;
   width: fit-content;
-  margin: 2px auto 0;
+  max-width: 100%;
+  margin: 0;
   color: var(--accent-bright);
   text-decoration: none;
   position: relative;
+  flex-wrap: wrap;
   transition: color 0.24s ease, transform 0.24s ease;
 }
 
@@ -103,6 +184,7 @@ body.pomodoro .about-link:focus-visible {
 
 .about-link span {
   position: relative;
+  overflow-wrap: anywhere;
 }
 
 .about-link span::after {
@@ -171,7 +253,15 @@ body.pomodoro .about-link:focus-visible {
   }
 
   .about-copy {
-    gap: 12px;
+    gap: 18px;
+  }
+
+  .about-block {
+    gap: 10px;
+  }
+
+  .about-shortcuts li {
+    align-items: flex-start;
   }
 }
 
